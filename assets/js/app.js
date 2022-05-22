@@ -19,6 +19,11 @@ import "../css/app.css"
 //     import "some-package"
 //
 
+import {GPAC} from "./google-autocomplete.js"
+import {Geolocator} from "./geolocator.js"
+window.GPAC = GPAC
+window.Geolocator = Geolocator
+
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
@@ -43,3 +48,6 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+if (typeof on_scripts_loaded === 'function') {
+  on_scripts_loaded();
+}

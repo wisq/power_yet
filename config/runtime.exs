@@ -1,4 +1,5 @@
 import Config
+alias PowerYet.Secrets
 
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
@@ -6,6 +7,12 @@ import Config
 # and secrets from environment variables or elsewhere. Do not define
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
+
+if config_env() == :dev do
+  Secrets.load_env_from_path(".secrets")
+end
+
+config :power_yet, google_maps_client_key: Secrets.fetch!("GOOGLE_MAPS_CLIENT_KEY")
 
 # ## Using releases
 #

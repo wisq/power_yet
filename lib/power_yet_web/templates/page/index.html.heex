@@ -1,41 +1,36 @@
-<section class="phx-hero">
-  <h1>Welcome to Phoenix!</h1>
-  <p>Peace of mind from prototype to production</p>
-</section>
+<script type="text/javascript" src={"https://maps.googleapis.com/maps/api/js?key=#{google_maps_client_key()}&libraries=places&region=CA"}></script>
 
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.6/CHANGELOG.md">v1.6 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://web.libera.chat/#elixir">#elixir on Libera Chat (IRC)</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-      <li>
-        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
-      </li>
-      <li>
-        <a href="https://discord.gg/elixir">Elixir on Discord</a>
-      </li>
-    </ul>
-  </article>
-</section>
+<form method="GET">
+  <input type="hidden" name="latitude"  />
+  <input type="hidden" name="longitude" />
+  <input type="hidden" name="formatted" />
+
+  <p><input id="geo_submit" type="submit" value="Use current location"></p>
+</form>
+
+<p>... or ... </p>
+
+<form method="GET">
+  <input type="hidden" name="latitude"  />
+  <input type="hidden" name="longitude" />
+  <input type="hidden" name="formatted" />
+
+  <p>
+    <input id="search_input" name="address" type="text" class="css-input" placeholder="Enter your street address or postal code">
+    <input id="search_submit" type="submit" value="Search">
+  </p>
+</form>
+
+<script type="text/javascript">
+var gpac = null;
+var geo = null;
+function on_scripts_loaded() {
+    if (gpac == null) {
+        gpac = new GPAC(document.getElementById("search_input"));
+    }
+
+    if (geo == null) {
+        geo = new Geolocator(document.getElementById("geo_submit"));
+    }
+}
+</script>

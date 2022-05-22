@@ -32,3 +32,5 @@ power_yet-*.tar
 npm-debug.log
 /assets/node_modules/
 
+/.secrets/
+/tmp/
