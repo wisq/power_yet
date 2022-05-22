@@ -47,7 +47,10 @@ defmodule PowerYet.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:geo_postgis, "~> 3.4"}
+      {:geo_postgis, "~> 3.4"},
+      {:poison, "~> 4.0"},
+      {:httpoison, "~> 1.8"},
+      {:ecto_json, "~> 0.1.0"}
     ]
   end
 
