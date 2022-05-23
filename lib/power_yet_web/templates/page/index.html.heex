@@ -1,4 +1,3 @@
-<script type="text/javascript" src={"https://maps.googleapis.com/maps/api/js?key=#{google_maps_client_key()}&libraries=places&region=CA"}></script>
 
 <%= form_tag(Routes.page_path(@conn, :search), method: :get) do %>
   <input type="hidden" name="latitude"  />
@@ -24,13 +23,15 @@
 <script type="text/javascript">
 var gpac = null;
 var geo = null;
-function on_scripts_loaded() {
-    if (gpac == null) {
-        gpac = new GPAC(document.getElementById("search_input"));
-    }
+function on_scripts_loaded(loaded) {
+    if (loaded.has('app') && loaded.has('maps')) {
+        if (gpac == null) {
+            gpac = new GPAC(document.getElementById("search_input"));
+        }
 
-    if (geo == null) {
-        geo = new Geolocator(document.getElementById("geo_submit"));
+        if (geo == null) {
+            geo = new Geolocator(document.getElementById("geo_submit"));
+        }
     }
 }
 </script>

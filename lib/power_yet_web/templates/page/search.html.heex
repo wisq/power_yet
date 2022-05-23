@@ -22,8 +22,8 @@
 
 <script type="text/javascript">
 var dtime = null;
-function on_scripts_loaded() {
-    if (dtime == null) {
+function on_scripts_loaded(loaded) {
+    if (dtime == null && loaded.has('app')) {
         dtime = new DynamicTime();
         dtime.init_all();
     }

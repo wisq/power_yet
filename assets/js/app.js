@@ -50,7 +50,3 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-
-if (typeof on_scripts_loaded === 'function') {
-  on_scripts_loaded();
-}
