@@ -10,7 +10,7 @@ ENV MIX_ENV=${mix_env} \
     ENDPOINT_MODE=docker
 
 # Install build dependencies
-RUN apk add --update-cache build-base git \
+RUN apk add --update-cache build-base git npm \
     && rm -rf /var/cache/apk/*
 
 # Install hex and rebar
@@ -28,7 +28,12 @@ COPY config/config.exs ./config/
 COPY config/${mix_env}.deps.exs ./config/
 RUN touch config/${mix_env}.exs
 
-# Fetch the application dependencies and build the application
+# Fetch JS dependencies
+COPY assets/package.json ./assets/
+COPY assets/package-lock.json ./assets/
+RUN cd assets && npm install
+
+# Fetch and build the application dependencies
 RUN mix deps.get --only ${mix_env}
 RUN mix deps.compile
 
