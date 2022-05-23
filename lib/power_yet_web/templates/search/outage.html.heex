@@ -12,7 +12,7 @@
       <b>Start time:</b> <%= @outage.metadata["OFF_DATETIME"] %>
     </li>
     <li>
-      <b>Affecting:</b> <%= @outage.metadata["OUTAGE_CUSTOMERS"] %> customers
+      <b>Affecting:</b> <%= @outage.customers %> customers
     </li>
     <li>
       <b>Cause:</b> <%= @outage.metadata["CAUSE_CODE"] %>
