@@ -11,7 +11,9 @@ config :power_yet, PowerYet.Repo,
   hostname: "localhost",
   database: "power_yet_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
-  pool_size: 10
+  pool_size: 10,
+  types: PowerYet.PostgresTypes,
+  after_connect: {PowerYet.Repo, :create_schema, ["power_yet_test"]}
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
@@ -25,3 +27,5 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :power_yet, google_maps_client_key: "dummy"
