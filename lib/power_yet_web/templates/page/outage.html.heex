@@ -1,10 +1,12 @@
-<p>
+<h3>
   <%= if @distance <= 0.0 do %>
     Outage <b><%= @outage.name %></b>:
   <% else %>
-    Outage <b><%= @outage.name %></b> is <b><%= ceil(@distance) %>m</b> away:
+    Outage <b><%= @outage.name %></b> is <%= ceil(@distance) %> metres away:
   <% end %>
+</h3>
 
+<p>
   <ul>
     <li>
       <b>Start time:</b> <%= @outage.metadata["OFF_DATETIME"] %>
@@ -21,10 +23,4 @@
       (as of <span class="dynamic_time" data-dt-type="calendar"><%= @outage.metadata["STATUS_DATE"] %></span>)
     </li>
   </ul>
-
-  <!--
-  <pre>
-    <%= inspect(@outage.metadata, pretty: true) %>
-  </pre>
-  -->
 </p>
