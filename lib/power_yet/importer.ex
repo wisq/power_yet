@@ -1,4 +1,6 @@
 defmodule PowerYet.Importer do
+  require Logger
+
   alias Geo.{Polygon, MultiPolygon}
   alias Ecto.Multi
   import Ecto.Query, only: [from: 2]
@@ -7,15 +9,37 @@ defmodule PowerYet.Importer do
   alias PowerYet.Repo
 
   def import(data \\ get_ottawa_json()) do
-    data
-    |> parse()
-    |> Enum.reduce(Multi.new(), &import_multi/2)
-    |> Multi.merge(&multi_delete_unused/1)
-    |> Repo.transaction()
+    multi =
+      Multi.new()
+      |> Multi.run(:max_id, &multi_select_max_id/2)
+
+    {:ok, results} =
+      data
+      |> parse()
+      |> Enum.reduce(multi, &import_multi/2)
+      |> Multi.merge(&multi_delete_unused/1)
+      |> Repo.transaction()
+
+    {max_id, results} = Map.pop(results, :max_id)
+    {{deleted, _}, results} = Map.pop(results, :unused)
+
+    outages = Map.values(results)
+    added = outages |> Enum.count(&(&1.id > max_id))
+    updated = outages |> Enum.count(&(&1.id <= max_id))
+
+    Logger.info("Imported outage data: #{added} added, #{updated} updated, #{deleted} deleted.")
+    outages
   end
 
   @unique_fields [:name]
   @replace_fields [:active, :customers, :metadata, :extent]
+
+  defp multi_select_max_id(repo, _) do
+    case from(o in Outage, order_by: [desc: o.id], select: o.id, limit: 1) |> repo.one() do
+      nil -> {:ok, -1}
+      n when is_integer(n) -> {:ok, n}
+    end
+  end
 
   defp import_multi(%Outage{} = outage, %Multi{} = multi) do
     multi
@@ -26,7 +50,7 @@ defmodule PowerYet.Importer do
   end
 
   defp multi_delete_unused(changes) do
-    names = Map.keys(changes)
+    names = Map.keys(changes) |> Enum.filter(&is_binary/1)
     query = from(o in Outage, where: o.name not in ^names)
 
     Multi.new()
