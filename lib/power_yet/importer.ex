@@ -17,17 +17,20 @@ defmodule PowerYet.Importer do
       data
       |> parse()
       |> Enum.reduce(multi, &import_multi/2)
-      |> Multi.merge(&multi_delete_unused/1)
+      |> Multi.merge(&multi_deactivate_unused/1)
       |> Repo.transaction()
 
     {max_id, results} = Map.pop(results, :max_id)
-    {{deleted, _}, results} = Map.pop(results, :unused)
+    {{deactivated, _}, results} = Map.pop(results, :unused)
 
     outages = Map.values(results)
     added = outages |> Enum.count(&(&1.id > max_id))
     updated = outages |> Enum.count(&(&1.id <= max_id))
 
-    Logger.info("Imported outage data: #{added} added, #{updated} updated, #{deleted} deleted.")
+    Logger.info(
+      "Imported outage data: #{added} added, #{updated} updated, #{deactivated} deactivated."
+    )
+
     outages
   end
 
@@ -49,12 +52,12 @@ defmodule PowerYet.Importer do
     )
   end
 
-  defp multi_delete_unused(changes) do
+  defp multi_deactivate_unused(changes) do
     names = Map.keys(changes) |> Enum.filter(&is_binary/1)
-    query = from(o in Outage, where: o.name not in ^names)
+    query = from(o in Outage, where: o.active and o.name not in ^names)
 
     Multi.new()
-    |> Multi.delete_all(:unused, query)
+    |> Multi.update_all(:unused, query, set: [active: false, updated_at: DateTime.utc_now()])
   end
 
   def parse(data) do
