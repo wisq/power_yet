@@ -1,5 +1,20 @@
-/* This file is for your main application CSS */
+/* ex: sw=2
+ * This file is for your main application CSS */
 @import "./phoenix.css";
+
+.disclaimer {
+  border-top: 1px dashed black;
+  border-bottom: 1px dashed black;
+  font-style: italic;
+  margin-top: 3em;
+  padding: 0.5em 0px;
+  font-size: smaller;
+}
+
+.logos {
+  margin: 0px auto;
+  width: 32px;
+}
 
 /* Alerts and form errors used by phx.new */
 .alert {
