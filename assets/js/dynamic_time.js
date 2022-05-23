@@ -14,7 +14,7 @@ moment.updateLocale('en', {
 class MomentCalendar {
   constructor(elem) {
     this.element = elem;
-    this.moment = moment(elem.textContent);
+    this.moment = moment(elem.textContent.trim());
 
     var self = this;
     setTimeout(function () { self.update(); }, 1);

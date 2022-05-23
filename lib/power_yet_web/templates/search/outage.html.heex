@@ -9,7 +9,10 @@
 <p>
   <ul>
     <li>
-      <b>Start time:</b> <%= @outage.metadata["OFF_DATETIME"] %>
+      <b>Start time:</b>
+      <span class="dynamic_time" data-dt-type="calendar">
+        <%= @outage.metadata["OFF_DATETIME"] %>
+      </span>
     </li>
     <li>
       <b>Affecting:</b> <%= @outage.customers %> customers
@@ -20,7 +23,9 @@
     <li>
       <b>Status:</b>
       <%= @outage.metadata["STATUS"] %>
-      (as of <span class="dynamic_time" data-dt-type="calendar"><%= @outage.metadata["STATUS_DATE"] %></span>)
+      (as of <span class="dynamic_time" data-dt-type="calendar">
+        <%= @outage.metadata["STATUS_DATE"] %>
+      </span>)
     </li>
   </ul>
 </p>
