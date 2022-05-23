@@ -1,0 +1,21 @@
+<h1>Outages in progress:</h1>
+
+<%= if Enum.empty?(@outages_at) do %>
+  <p>There are currently no known outages at <b><%= @location %></b>.</p>
+<% else %>
+  <p>The following outages are affecting <b><%= @location %></b>:</p>
+
+  <%= for {distance, outage} <- @outages_at do %>
+    <%= render("outage.html", outage: outage, distance: distance) %>
+  <% end %>
+<% end %>
+
+<%= if !Enum.empty?(@outages_near) do %>
+  <h2>Nearby outages:</h2>
+
+  <p>These other outages were also found nearby:</p>
+
+  <%= for {distance, outage} <- @outages_near do %>
+    <%= render("outage.html", outage: outage, distance: distance) %>
+  <% end %>
+<% end %>

@@ -1,0 +1,30 @@
+<p>
+  <%= if @distance <= 0.0 do %>
+    Outage <b><%= @outage.name %></b>:
+  <% else %>
+    Outage <b><%= @outage.name %></b> is <b><%= ceil(@distance) %>m</b> away:
+  <% end %>
+
+  <ul>
+    <li>
+      <b>Start time:</b> <%= @outage.metadata["OFF_DATETIME"] %>
+    </li>
+    <li>
+      <b>Affecting:</b> <%= @outage.metadata["OUTAGE_CUSTOMERS"] %> customers
+    </li>
+    <li>
+      <b>Cause:</b> <%= @outage.metadata["CAUSE_CODE"] %>
+    </li>
+    <li>
+      <b>Status:</b>
+      <%= @outage.metadata["STATUS"] %>
+      (as of <%= @outage.metadata["STATUS_DATE"] %>)
+    </li>
+  </ul>
+
+  <!--
+  <pre>
+    <%= inspect(@outage.metadata, pretty: true) %>
+  </pre>
+  -->
+</p>

@@ -1,16 +1,16 @@
 <script type="text/javascript" src={"https://maps.googleapis.com/maps/api/js?key=#{google_maps_client_key()}&libraries=places&region=CA"}></script>
 
-<form method="GET">
+<%= form_tag(Routes.page_path(@conn, :search), method: :get) do %>
   <input type="hidden" name="latitude"  />
   <input type="hidden" name="longitude" />
   <input type="hidden" name="formatted" />
 
   <p><input id="geo_submit" type="submit" value="Use current location"></p>
-</form>
+<% end %>
 
 <p>... or ... </p>
 
-<form method="GET">
+<%= form_tag(Routes.page_path(@conn, :search), method: :get) do %>
   <input type="hidden" name="latitude"  />
   <input type="hidden" name="longitude" />
   <input type="hidden" name="formatted" />
@@ -19,7 +19,7 @@
     <input id="search_input" name="address" type="text" class="css-input" placeholder="Enter your street address or postal code">
     <input id="search_submit" type="submit" value="Search">
   </p>
-</form>
+<% end %>
 
 <script type="text/javascript">
 var gpac = null;
