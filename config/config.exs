@@ -10,6 +10,8 @@ import Config
 config :power_yet,
   ecto_repos: [PowerYet.Repo]
 
+config :power_yet, PowerYet.Application, start_importer: :if_not_iex
+
 # Configures the endpoint
 config :power_yet, PowerYetWeb.Endpoint,
   url: [host: "localhost"],
