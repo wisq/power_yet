@@ -22,10 +22,4 @@ config :power_yet, PowerYetWeb.Endpoint,
   secret_key_base: "Iu+IGYeRiD0SVZqlryWiBa2uI7QixwIIOemo7HFm1VqyQwffUs/dMr60a8w/qYJb",
   server: false
 
-# Print only warnings and errors during test
-config :logger, level: :warn
-
-# Initialize plugs at runtime for faster test compilation
-config :phoenix, :plug_init_mode, :runtime
-
 config :power_yet, google_maps_client_key: "dummy"

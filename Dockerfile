@@ -25,13 +25,15 @@ WORKDIR /app
 COPY mix.exs .
 COPY mix.lock .
 COPY config/config.exs ./config/
-COPY config/${mix_env}.exs ./config/
+COPY config/${mix_env}.deps.exs ./config/
+RUN touch config/${mix_env}.exs
 
 # Fetch the application dependencies and build the application
 RUN mix deps.get --only ${mix_env}
 RUN mix deps.compile
 
 # Copy over remaining build files
+COPY config/${mix_env}.exs ./config/
 COPY lib ./lib
 COPY priv ./priv
 COPY assets ./assets
