@@ -1,7 +1,5 @@
 defmodule PowerYet.Outage do
   use Ecto.Schema
-  import Ecto.Changeset
-  alias __MODULE__
 
   schema "outages" do
     timestamps()

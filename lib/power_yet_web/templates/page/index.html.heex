@@ -1,6 +1,6 @@
 <h1>Is My Power Back Yet?</h1>
 
-<%= form_tag(Routes.page_path(@conn, :search), method: :get) do %>
+<%= form_tag(Routes.search_path(@conn, :search), method: :get) do %>
   <input type="hidden" name="latitude"  />
   <input type="hidden" name="longitude" />
   <input type="hidden" name="formatted" />
@@ -10,7 +10,7 @@
 
 <p>... or ... </p>
 
-<%= form_tag(Routes.page_path(@conn, :search), method: :get) do %>
+<%= form_tag(Routes.search_path(@conn, :search), method: :get) do %>
   <input type="hidden" name="latitude"  />
   <input type="hidden" name="longitude" />
   <input type="hidden" name="formatted" />
