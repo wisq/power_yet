@@ -19,3 +19,13 @@
     <%= render("outage.html", outage: outage, distance: distance) %>
   <% end %>
 <% end %>
+
+<script type="text/javascript">
+var dtime = null;
+function on_scripts_loaded() {
+    if (dtime == null) {
+        dtime = new DynamicTime();
+        dtime.init_all();
+    }
+}
+</script>

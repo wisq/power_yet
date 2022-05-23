@@ -24,6 +24,9 @@ import {Geolocator} from "./geolocator.js"
 window.GPAC = GPAC
 window.Geolocator = Geolocator
 
+import {DynamicTime} from "./dynamic_time.js"
+window.DynamicTime = DynamicTime
+
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.

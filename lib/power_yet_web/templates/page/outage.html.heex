@@ -18,7 +18,7 @@
     <li>
       <b>Status:</b>
       <%= @outage.metadata["STATUS"] %>
-      (as of <%= @outage.metadata["STATUS_DATE"] %>)
+      (as of <span class="dynamic_time" data-dt-type="calendar"><%= @outage.metadata["STATUS_DATE"] %></span>)
     </li>
   </ul>
 
