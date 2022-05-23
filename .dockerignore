@@ -7,12 +7,14 @@ deps
 
 # Node build artifacts
 node_modules
+assets/node_modules
 
 # Tests
 test
 
 # Compiled static artifacts
-priv/static
+priv/static/assets
+priv/static/cache_manifest.json
 
 # Local stuff
 .elixir_ls
