@@ -25,8 +25,8 @@ defmodule PowerYet.Search do
     from(
       outage in Outage,
       where: outage.active,
-      where: st_distancesphere(outage.extent, ^point) <= ^metres,
-      select: {st_distancesphere(outage.extent, ^point), outage}
+      where: st_dwithin(outage.extent, ^point, ^metres),
+      select: {st_distance_in_meters(outage.extent, ^point), outage}
     )
   end
 end
