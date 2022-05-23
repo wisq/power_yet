@@ -9,7 +9,7 @@ defmodule PowerYetWeb.SearchController do
         String.to_float(long)
       }
       |> Search.search_outages_near()
-      |> Enum.split_with(fn {dist, _} -> dist == 0.0 end)
+      |> Enum.split_with(fn {dist, _, _} -> dist == 0.0 end)
 
     render(conn, "search.html", outages_at: at, outages_near: near, location: formatted)
   end

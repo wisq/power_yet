@@ -5,8 +5,8 @@
 <% else %>
   <p>The following outages are affecting <b><%= @location %></b>:</p>
 
-  <%= for {distance, outage} <- @outages_at do %>
-    <%= render("outage.html", outage: outage, distance: distance) %>
+  <%= for {distance, bearing, outage} <- @outages_at do %>
+    <%= render("outage.html", outage: outage, distance: distance, bearing: bearing) %>
   <% end %>
 <% end %>
 
@@ -15,8 +15,8 @@
 
   <p>These other outages were also found nearby:</p>
 
-  <%= for {distance, outage} <- @outages_near do %>
-    <%= render("outage.html", outage: outage, distance: distance) %>
+  <%= for {distance, bearing, outage} <- @outages_near do %>
+    <%= render("outage.html", outage: outage, distance: distance, bearing: bearing) %>
   <% end %>
 <% end %>
 

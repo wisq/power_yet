@@ -9,7 +9,7 @@ defmodule PowerYet.Search do
     {lat, long}
     |> lat_long_to_point
     |> outages_near_point(metres)
-    |> Enum.sort_by(fn {distance, outage} -> {distance, outage.name} end)
+    |> Enum.sort_by(fn {distance, _, outage} -> {distance, outage.name} end)
   end
 
   defp lat_long_to_point({lat, long}) do
@@ -26,7 +26,11 @@ defmodule PowerYet.Search do
       outage in Outage,
       where: outage.active,
       where: st_dwithin(outage.extent, ^point, ^metres),
-      select: {st_distance_in_meters(outage.extent, ^point), outage}
+      select: {
+        st_distance_in_meters(outage.extent, ^point),
+        fragment("degrees(ST_Azimuth(?, ST_ClosestPoint(extent::geometry, ?)))", ^point, ^point),
+        outage
+      }
     )
   end
 end

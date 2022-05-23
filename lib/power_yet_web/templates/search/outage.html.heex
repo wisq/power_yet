@@ -2,7 +2,7 @@
   <%= if @distance <= 0.0 do %>
     Outage <b><%= @outage.name %></b>:
   <% else %>
-    Outage <b><%= @outage.name %></b> is <%= ceil(@distance) %> metres away:
+    Outage <b><%= @outage.name %></b> is <%= ceil(@distance) %> metres to the <%= direction(@bearing) %>:
   <% end %>
 </h3>
 
