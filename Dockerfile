@@ -37,6 +37,9 @@ RUN cd assets && npm install
 RUN mix deps.get --only ${mix_env}
 RUN mix deps.compile
 
+# Install esbuild early on to avoid fetching it every deploy
+RUN mix esbuild.install
+
 # Copy over remaining build files
 COPY config/${mix_env}.exs ./config/
 COPY lib ./lib
