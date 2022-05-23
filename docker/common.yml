@@ -4,7 +4,7 @@ services:
     image: poweryet-release
     container_name: poweryet-admin
     env_file:
-      - .env.deploy
+      - ../.env.deploy
     environment:
       - APP_MODE=admin
     networks:
@@ -15,7 +15,7 @@ services:
     image: poweryet-release
     container_name: poweryet-web
     env_file:
-      - .env.deploy
+      - ../.env.deploy
     environment:
       - APP_MODE=web
       - WEB_PORT=4000
