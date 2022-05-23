@@ -8,40 +8,18 @@ alias PowerYet.Secrets
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 
-if config_env() == :dev do
-  Secrets.load_env_from_path(".secrets")
-end
-
-config :power_yet, google_maps_client_key: Secrets.fetch!("GOOGLE_MAPS_CLIENT_KEY")
-
-# ## Using releases
-#
-# If you use `mix release`, you need to explicitly enable the server
-# by passing the PHX_SERVER=true when you start it:
-#
-#     PHX_SERVER=true bin/power_yet start
-#
-# Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
-# script that automatically sets the env var above.
-if System.get_env("PHX_SERVER") do
-  config :power_yet, PowerYetWeb.Endpoint, server: true
+if config_env() != :test do
+  config :power_yet, google_maps_client_key: Secrets.fetch!("GOOGLE_MAPS_CLIENT_KEY")
 end
 
 if config_env() == :prod do
-  database_url =
-    System.get_env("DATABASE_URL") ||
-      raise """
-      environment variable DATABASE_URL is missing.
-      For example: ecto://USER:PASS@HOST/DATABASE
-      """
-
-  maybe_ipv6 = if System.get_env("ECTO_IPV6"), do: [:inet6], else: []
-
   config :power_yet, PowerYet.Repo,
-    # ssl: true,
-    url: database_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
-    socket_options: maybe_ipv6
+    username: Secrets.fetch!("DB_USERNAME"),
+    password: Secrets.fetch!("DB_PASSWORD"),
+    database: Secrets.fetch!("DB_NAME"),
+    # hostname is configured below
+    pool_size: 10,
+    types: PowerYet.PostgresTypes
 
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
@@ -55,8 +33,8 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
-  port = String.to_integer(System.get_env("PORT") || "4000")
+  host = System.get_env("WEB_HOST") || "ismypowerbackyet.com"
+  port = String.to_integer(System.get_env("WEB_PORT") || "4000")
 
   config :power_yet, PowerYetWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
@@ -69,4 +47,15 @@ if config_env() == :prod do
       port: port
     ],
     secret_key_base: secret_key_base
+end
+
+case System.fetch_env("APP_MODE") do
+  {:ok, mode} ->
+    # Running inside Docker
+    config :power_yet, PowerYetWeb.Endpoint, server: mode == "web"
+    config :power_yet, PowerYet.Application, start_importer: mode == "web"
+    config :power_yet, PowerYet.Repo, hostname: Secrets.fetch!("DB_HOST")
+
+  :error ->
+    if config_env() == :prod, do: raise("Must set APP_MODE in production environment")
 end

@@ -1,0 +1,33 @@
+version: "3"
+services:
+  admin:
+    image: poweryet-release
+    container_name: poweryet-admin
+    env_file:
+      - .env.deploy
+    environment:
+      - APP_MODE=admin
+    networks:
+      - postgres
+    command: eval PowerYet.Release.migrate
+    restart: "no"
+  server:
+    image: poweryet-release
+    container_name: poweryet-web
+    env_file:
+      - .env.deploy
+    environment:
+      - APP_MODE=web
+      - WEB_PORT=4000
+    networks:
+      - postgres
+      - nginx
+    command: start
+    depends_on:
+      - admin
+    restart: unless-stopped
+networks:
+  postgres:
+    name: postgres
+  nginx:
+    name: nginx
