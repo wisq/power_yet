@@ -53,8 +53,11 @@ case System.fetch_env("APP_MODE") do
   {:ok, mode} ->
     # Running inside Docker
     config :power_yet, PowerYetWeb.Endpoint, server: mode == "web"
-    config :power_yet, PowerYet.Application, start_importer: mode == "web"
     config :power_yet, PowerYet.Repo, hostname: Secrets.fetch!("DB_HOST")
+
+    # Currently disabled on production.
+    config :power_yet, PowerYet.Application,
+      start_importer: mode == "web" && config_env() != :prod
 
   :error ->
     if config_env() == :prod, do: raise("Must set APP_MODE in production environment")
