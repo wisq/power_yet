@@ -1,13 +1,6 @@
 <main class="container">
   <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
   <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-
-  <div class="notice">
-    <p>Unfortunately, Hydro Ottawa has taken their outage map offline, including the raw outage data that this site relies on.  As of this writing (2022-05-28), the map on their Outage Centre page is just a pre-rendered image with no usable data attached.</p>
-
-    <p>This site will remain available, using a snapshot of the last available data.  If outage data becomes available again, I'll update it accordingly.</p>
-  </div>
-
   <%= @inner_content %>
 
   <p class="disclaimer">This site is indended as a mobile-friendly way to check for current and nearby outages.  <b>It is not endorsed by or affiliated with Hydro Ottawa.</b>  It uses the outage data they provide for their <a target="_blank" href="https://hydroottawa.com/en/outages-safety/outage-centre">outage map</a>, which may not reflect current conditions, especially if they have elected to disable the map on their website.</p>
