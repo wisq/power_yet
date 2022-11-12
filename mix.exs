@@ -51,7 +51,8 @@ defmodule PowerYet.MixProject do
       {:poison, "~> 4.0"},
       {:httpoison, "~> 1.8"},
       {:ecto_json, "~> 0.1.0"},
-      {:stream_gzip, "~> 0.4"}
+      {:stream_gzip, "~> 0.4"},
+      {:timex, "~> 3.7"}
     ]
   end
 

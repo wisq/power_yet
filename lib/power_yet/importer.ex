@@ -7,6 +7,7 @@ defmodule PowerYet.Importer do
 
   alias PowerYet.Outage
   alias PowerYet.Repo
+  alias PowerYet.Status
 
   def import(data \\ get_ottawa_json()) do
     multi =
@@ -18,10 +19,12 @@ defmodule PowerYet.Importer do
       |> parse()
       |> Enum.reduce(multi, &import_multi/2)
       |> Multi.merge(&multi_deactivate_unused/1)
+      |> Multi.append(status_multi = Status.multi_update_last_import_at())
       |> Repo.transaction()
 
-    {max_id, results} = Map.pop(results, :max_id)
-    {{deactivated, _}, results} = Map.pop(results, :unused)
+    {max_id, results} = Map.pop!(results, :max_id)
+    {{deactivated, _}, results} = Map.pop!(results, :unused)
+    results = drop_multi_results(results, status_multi)
 
     outages = Map.values(results)
     added = outages |> Enum.count(&(&1.id > max_id))
@@ -130,5 +133,9 @@ defmodule PowerYet.Importer do
       coordinates: features |> Enum.map(fn %Polygon{coordinates: c} -> c end),
       srid: srid
     }
+  end
+
+  defp drop_multi_results(results, multi) do
+    Map.drop(results, multi |> Multi.to_list() |> Keyword.keys())
   end
 end
