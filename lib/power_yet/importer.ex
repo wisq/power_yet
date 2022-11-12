@@ -74,8 +74,27 @@ defmodule PowerYet.Importer do
   defp get_ottawa_json do
     "https://outages.hydroottawa.com/geojson/outage_polygons_public.json"
     |> HTTPoison.get!()
-    |> Map.fetch!(:body)
+    |> extract_body()
     |> Poison.decode!()
+  end
+
+  defp extract_body(%{headers: head, body: body}) do
+    head = head |> Map.new(fn {k, v} -> {String.downcase(k), v} end)
+    ctype = Map.get(head, "content-type")
+    cenc = Map.get(head, "content-encoding")
+
+    cond do
+      ctype == "application/octet-stream" && cenc == "gzip" ->
+        {:ok, stream} = body |> StringIO.open()
+
+        stream
+        |> IO.binstream(4096)
+        |> StreamGzip.gunzip()
+        |> Enum.join("")
+
+      true ->
+        raise "not implemented: #{inspect({ctype, cenc})}"
+    end
   end
 
   defp crs_to_srid("urn:ogc:def:crs:OGC:1.3:CRS84"), do: 4326

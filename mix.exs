@@ -50,7 +50,8 @@ defmodule PowerYet.MixProject do
       {:geo_postgis, "~> 3.4"},
       {:poison, "~> 4.0"},
       {:httpoison, "~> 1.8"},
-      {:ecto_json, "~> 0.1.0"}
+      {:ecto_json, "~> 0.1.0"},
+      {:stream_gzip, "~> 0.4"}
     ]
   end
 
