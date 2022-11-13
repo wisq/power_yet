@@ -7,7 +7,7 @@
     <p>This site is indended as a mobile-friendly way to check for current and nearby outages.  <b>It is not endorsed by or affiliated with Hydro Ottawa.</b>  It uses the outage data they provide for their <a target="_blank" href="https://hydroottawa.com/en/outages-safety/outage-centre">outage map</a>, which may not reflect current conditions, especially if they have elected to disable the map on their website.</p>
 
     <%= if last = last_import_at() do %>
-      <p>Outage data was last updated <%= last %>.</p>
+      <p>Outage data was last retrieved <%= last %>.</p>
     <% end %>
   </div>
 
