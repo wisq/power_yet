@@ -14,12 +14,20 @@ defmodule PowerYetWeb.LayoutView do
   defp format_timestamp(nil), do: nil
 
   defp format_timestamp(%DateTime{} = time) do
-    delta = Timex.diff(DateTime.utc_now(), time, :hour)
-    abs_format = "at {h24}:{m}"
-    abs_format = if delta >= 12, do: "on {YYYY}-{0M}-{0D} #{abs_format}", else: abs_format
-    abs = Timex.format!(time, abs_format)
+    time = time |> to_local()
+    now = DateTime.utc_now() |> to_local()
+
+    abs_f = "at {h24}:{m}"
+    abs_f = if delta_hours(time, now) >= 12, do: "on {YYYY}-{0M}-{0D} #{abs_f}", else: abs_f
+    abs_f = if same_tz(time, now), do: abs_f, else: "#{abs_f} {Zabbr}"
+
+    abs = Timex.format!(time, abs_f)
     rel = Relative.format!(time, "{relative}")
 
     "#{rel}, #{abs}"
   end
+
+  defp to_local(time), do: Timex.Timezone.convert(time, "America/Toronto")
+  defp delta_hours(time, now), do: Timex.diff(now, time, :hour)
+  defp same_tz(t1, t2), do: t1.zone_abbr == t2.zone_abbr
 end
