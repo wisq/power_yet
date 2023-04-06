@@ -27,5 +27,11 @@
         <%= @outage.metadata["STATUS_DATE"] %>
       </span>)
     </li>
+    <%= if e_t_restore = @outage.metadata["ESTIMATED_RESTORE"] do %>
+      <li>
+        <b>Estimated restoration:</b>
+        <span class="dynamic_time" data-dt-type="calendar"><%= e_t_restore %></span>
+      </li>
+    <% end %>
   </ul>
 </p>
