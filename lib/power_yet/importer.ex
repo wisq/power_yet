@@ -106,7 +106,7 @@ defmodule PowerYet.Importer do
     %Outage{
       name: name,
       active: true,
-      customers: areas |> Enum.map(&customer_count/1) |> Enum.sum(),
+      customers: areas |> Enum.map(&customer_count/1) |> merge_customer_counts(),
       metadata: areas |> merge_properties(),
       extent: areas |> merge_geometries(srid)
     }
@@ -137,5 +137,16 @@ defmodule PowerYet.Importer do
 
   defp drop_multi_results(results, multi) do
     Map.drop(results, multi |> Multi.to_list() |> Keyword.keys())
+  end
+
+  defp merge_customer_counts(list) do
+    case Enum.uniq(list) do
+      [value] ->
+        value
+
+      uniq ->
+        Logger.warn("Multiple values for customer counts: #{inspect(uniq)}")
+        Enum.max(uniq)
+    end
   end
 end
