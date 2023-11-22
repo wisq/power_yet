@@ -35,7 +35,7 @@ defmodule PowerYet.MixProject do
     [
       {:phoenix, "~> 1.6.9"},
       {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
+      {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
@@ -52,7 +52,9 @@ defmodule PowerYet.MixProject do
       {:httpoison, "~> 1.8"},
       {:ecto_json, "~> 0.1.0"},
       {:stream_gzip, "~> 0.4"},
-      {:timex, "~> 3.7"}
+      {:timex, "~> 3.7"},
+      {:ssl_verify_fun, "~> 1.1.6",
+       manager: :rebar3, only: [:test], runtime: false, override: true}
     ]
   end
 
