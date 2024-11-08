@@ -1,3 +1,10 @@
+> [!NOTE]
+> **This project is defunct and archived.**  Hydro Ottawa has switched their outage map to `kubra.io`, and I would have to completely rewrite the importer to use it (and also figure out how it even works).
+>
+> Also, Hydro Ottawa has (finally) added SMS alerts for power outages, obviating the main purpose of this project.
+>
+> That's not to say I'll never return to it (presumably for fun), but there's very little reason for me to update it at this point.  The code will remain available on Github for archival purposes.
+
 # PowerYet
 
 A mobile-friendly way to check if a given location (e.g. your home) is still suffering from a known Hydro Ottawa outage.  Hosted at [ismypowerbackyet.com](https://ismypowerbackyet.com/).
