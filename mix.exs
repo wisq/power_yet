@@ -20,9 +20,13 @@ defmodule PowerYet.MixProject do
   def application do
     [
       mod: {PowerYet.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: extra_applications(Mix.env())
     ]
   end
+
+  defp extra_applications(:test), do: [:logger]
+  defp extra_applications(:dev), do: [:logger, :runtime_tools, :inets]
+  defp extra_applications(:prod), do: [:logger, :runtime_tools]
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]

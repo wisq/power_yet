@@ -145,7 +145,7 @@ defmodule PowerYet.Importer do
         value
 
       uniq ->
-        Logger.warn("Multiple values for customer counts: #{inspect(uniq)}")
+        Logger.warning("Multiple values for customer counts: #{inspect(uniq)}")
         Enum.max(uniq)
     end
   end
