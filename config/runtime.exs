@@ -14,9 +14,7 @@ end
 
 if config_env() == :prod do
   config :power_yet, PowerYet.Repo,
-    username: Secrets.fetch!("DB_USERNAME"),
-    password: Secrets.fetch!("DB_PASSWORD"),
-    database: Secrets.fetch!("DB_NAME"),
+    url: Secrets.fetch!("DATABASE_URL"),
     # hostname is configured below
     pool_size: 10,
     types: PowerYet.PostgresTypes
@@ -54,7 +52,7 @@ case System.fetch_env("APP_MODE") do
     # Running inside Docker
     config :power_yet, PowerYetWeb.Endpoint, server: mode == "web"
     config :power_yet, PowerYet.Application, start_importer: mode == "web"
-    config :power_yet, PowerYet.Repo, hostname: Secrets.fetch!("DB_HOST")
+    config :power_yet, PowerYet.Repo, url: Secrets.fetch!("DATABASE_URL")
 
   :error ->
     if config_env() == :prod, do: raise("Must set APP_MODE in production environment")

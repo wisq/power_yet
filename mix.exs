@@ -53,8 +53,7 @@ defmodule PowerYet.MixProject do
       {:ecto_json, "~> 0.1.0"},
       {:stream_gzip, "~> 0.4"},
       {:timex, "~> 3.7"},
-      {:ssl_verify_fun, "~> 1.1.6",
-       manager: :rebar3, only: [:test], runtime: false, override: true}
+      {:ssl_verify_fun, "~> 1.1.6", manager: :rebar3, override: true}
     ]
   end
 
